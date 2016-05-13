@@ -1,2 +1,2 @@
-# merlin-bot
+# Mr. Burns 
 my first slack bot

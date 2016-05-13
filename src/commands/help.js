@@ -4,22 +4,19 @@
 const _ = require('lodash')
 const config = require('../config')
 
-const msgDefaults = {
-  response_type: 'in_channel',
-  username: 'mr-burns',
-}
+
 
 let attachments = [
   {
     title: 'Mr Burns is an all around money hungry bot',
     color: '#2FA44F',
-    text: '`/mr-burns repos` returns hip repos \n`/mr-burns javascript` returns hip JavaScript repos',
+    text: '`opportunities` used with one of these sub-commands:',
     mrkdwn_in: ['text']
   },
   {
     title: 'Configuring Mr. Burns',
     color: '#E3E4E6',
-    text: '`/mr-burns help` ... you\'re lookin at it! \n',
+    text: '`help` ... you\'re lookin at it! \n',
     mrkdwn_in: ['text']
   }
 ]

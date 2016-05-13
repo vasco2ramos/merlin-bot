@@ -11,7 +11,7 @@
     "lodash": "^4.6.1",
     "slack": "^6.1.0"
   },
-  "main": "./src/bot.js",
+  "main": "./src/index.js",
   "scripts": {
     "start": "node ./src",
     "notify": "node ./src/tasks/notify",
