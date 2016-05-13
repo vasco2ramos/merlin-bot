@@ -15,19 +15,6 @@ const config = {
   SLACK_TOKEN: process.env.SLACK_TOKEN,
 }
 
-{
-	"help": {
-		"alias": [ "halp" ],
-		"endpoint": "#",
-		"help": "help [command](optional)",
-		"description": "To get help on all supported commands, or a specified command"
-	},
-
-	"error": {
-		"exclude": true
-	}
-}
-
 
 module.exports = (key) => {
   if (!key) return config

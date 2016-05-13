@@ -1,32 +1,39 @@
-
 'use strict'
 
 const slack = require('slack')
 const _ = require('lodash')
+const botkit = require('botkit')
 const config = require('./config')
 
-let bot = slack.rtm.client()
+const commands = require('./commands')
+const helpCommand = require('./commands/help')
 
-bot.started((payload) => {
-  this.self = payload.self
-})
+var controller = botkit.slackbot({
+    debug: false,
+});
 
-bot.message((msg) => {
-  if (!msg.user) return
-  if (!_.includes(msg.text.match(/<@([A-Z0-9])+>/igm), `<@${this.self.id}>`)) return // message directed to Mr Burns
-  
+var bot = controller.spawn({
+  token: config('SLACK_TOKEN')
+}).startRTM(function(err) {
+  if (err) {
+    throw new Error(err);
+  }
+});
 
-  slack.chat.postMessage({
-    token: config('SLACK_TOKEN'),
-    channel: msg.channel,
-    text: `Yes; Ask Mr. Smithers"`
-  }, (err, data) => {
-    if (err) throw err
+controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
+    controller.storage.users.get(message.user, function(err, user) {
+        if (user && user.name) {
+            bot.reply(message, 'Hello ' + user.name + '!!');
+        } else {
+            bot.reply(message, 'Hello.');
+        }
+    });
+});
 
-    let txt = _.truncate(data.message.text)
 
-    console.log(`🤖  beep boop: I responded with "${txt}"`)
-  })
-})
 
-module.exports = bot
+/*
+  let cmd = _.reduce(commands, (a, cmd) => {
+    return payload.text.match(cmd.pattern) ? cmd : a
+  }, helpCommand)
+*/

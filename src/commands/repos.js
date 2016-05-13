@@ -8,7 +8,6 @@ const trending = require('github-trending')
 const msgDefaults = {
   response_type: 'in_channel',
   username: 'mr-burns',
-  icon_emoji: config('ICON_EMOJI')
 }
 
 const handler = (payload, res) => {
