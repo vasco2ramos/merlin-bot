@@ -35,10 +35,9 @@ controller.hears(['help', 'halp'], 'direct_message,direct_mention,mention', func
     bot.reply(message, reply);
 });
 
-controller.hears(['company'], 'direct_message,direct_mention,mention', function(bot, message) {
-    //bot.reply
+controller.hears(['opportunities'], 'direct_message,direct_mention,mention', function(bot, message) {
+    bot.reply(message, "teste - "+commands.opportunities.getOpportunities())
 });
-
 
 controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'],
     'direct_message,direct_mention,mention', function(bot, message) {
@@ -51,6 +50,8 @@ controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your na
              '>. I have been running for ' + uptime + ' on ' + hostname + '.');
 
     });
+
+
 
 function formatUptime(uptime) {
     var unit = 'second';

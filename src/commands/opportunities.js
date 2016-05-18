@@ -3,8 +3,11 @@
 
 const _ = require('lodash')
 const config = require('../config')
-const trending = require('github-trending')
+const prosperworks = require('../helpers/prosperworks.js')
 
+var opportunities = this;
+
+/*
 const msgDefaults = {
   response_type: 'in_channel',
   username: 'mr-burns',
@@ -35,3 +38,11 @@ const handler = (payload, res) => {
 }
 
 module.exports = { pattern: /repos/ig, handler: handler }
+
+*/
+
+opportunities.getOpportunities = function () {
+    return prosperworks.getOpportunitiesCount();
+}
+
+module.exports = opportunities
