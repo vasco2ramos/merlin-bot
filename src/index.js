@@ -20,7 +20,7 @@ var bot = controller.spawn({
   }
 });
 
-controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
+controller.hears(['hello'], 'direct_message,direct_mention,mention', function(bot, message) {
     bot.reply(message, 'Hello.');
 });
 
@@ -36,7 +36,8 @@ controller.hears(['help', 'halp'], 'direct_message,direct_mention,mention', func
 });
 
 controller.hears(['opportunities'], 'direct_message,direct_mention,mention', function(bot, message) {
-    bot.reply(message, "teste - "+commands.opportunities.getOpportunities())
+    var response = commands.opportunities.getOpportunities()
+
 });
 
 controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'],
@@ -51,6 +52,13 @@ controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your na
 
     });
 
+    function handleResponse(bot, message, response) {
+        bot.reply(message, 'Excelent!');
+    }
+
+function printResponse(response, status, message){
+    bot.reply(message, " - " + response)
+}
 
 
 function formatUptime(uptime) {
