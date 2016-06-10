@@ -1,4 +1,6 @@
+const _ = require('lodash')
 const config = require('../config')
+const request = require('request')
 
 const headers = {
     'X-PW-AccessToken': config('PROSPERWORKS_TOKEN'),

@@ -1,8 +1,5 @@
 'use strict'
 
-const _ = require('lodash')
-const config = require('../config')
-const request = require('request');
 const prosperworks = require('../helpers/prosperworks');
 
 
@@ -28,15 +25,15 @@ opportunities.cmd = function(cmd, callback){
         prosperworks.openOpportunities(callback);
         return 1;
     } else if (cmd.match(/won$/gi) !== null) {
-        return 2;
+        return 1;
     } else if (cmd.match(/lost$/gi) !== null) {
-        return 3;
+        return 1;
     } else if (cmd.match(/expected$/gi) !== null) {
-        return 4;
+        return 1;
     }
     else {
         console.log(cmd);
-        return "Not Recognized";
+        return -1;
     }
 }
 
