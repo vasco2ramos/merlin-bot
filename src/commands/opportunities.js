@@ -1,79 +1,44 @@
-
 'use strict'
 
 const _ = require('lodash')
 const config = require('../config')
-//const prosperworks = require('../helpers/prosperworks.js')
 const request = require('request');
+const prosperworks = require('../helpers/prosperworks');
+
 
 var opportunities = this;
 
-const headers = {
-    'X-PW-AccessToken': config('PROSPERWORKS_TOKEN'),
-    'X-PW-UserEmail': config('PROSPERWORKS_EMAIL'),
-    'X-PW-Application': "developer_api",
-    'Content-Type': "application/json"
-};
+var cmd = [{
+        name: "open",
+        description: "Returns the number of Open Opportunities"
+    },{
+        name: "won",
+        description: "Returns the number of Opportunities Won this month"
+    },{
+        name: "lost",
+        description: "Returns the number of Opportunities Won this month"
+    },{
+        name: "expected",
+        description: "Returns the number of Opportunities expected to close this month"
+    }]
 
-var page_size = 50;
-var pipeline_id = 30164;
 
-var options = {
-  url: 'https://api.prosperworks.com/developer_api/v1/opportunities/search',
-  headers: headers,
-  json: true,
-  form: {
-      "sort_by": "status",
-      "sort_direction":"asc",
-      "page_size": page_size,
-      "pipeline_ids[]": pipeline_id,
-  }
-};
-
-opportunities.openOpportunitiesCount = function(func){
-    var i = 1, nOpportunities = 0;
-    options.form["page_number"] = i;
-    function getResponse(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var filtered = _.filter(body,['status','Open']);
-            nOpportunities += filtered.length;
-            if((nOpportunities/i) == page_size){
-                options.form["page_number"] = ++i;
-                request.post(options, getResponse); // Things will be kept memory, consider changing this
-            } else {
-                func(nOpportunities);
-            }
-        } else {
-        }
+opportunities.cmd = function(cmd, callback){
+    if (cmd.match(/open$/gi) !== null){
+        prosperworks.openOpportunities(callback);
+        return 1;
+    } else if (cmd.match(/won$/gi) !== null) {
+        return 2;
+    } else if (cmd.match(/lost$/gi) !== null) {
+        return 3;
+    } else if (cmd.match(/expected$/gi) !== null) {
+        return 4;
     }
-    request.post(options, getResponse);
-}
-
-
-opportunities.closingOpportunitiesCount = function(func){
-    var i = 1, nOpportunities = 0;
-    options.form["page_number"] = i;
-    function getResponse(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var filtered = _.filter(body,['status','Open']);
-            nOpportunities += filtered.length;
-            if((nOpportunities/i) == page_size){
-                options.form["page_number"] = ++i;
-                request.post(options, getResponse); // Things will be kept memory, consider changing this
-            } else {
-                func(nOpportunities);
-            }
-        } else {
-        }
+    else {
+        console.log(cmd);
+        return "Not Recognized";
     }
-    request.post(options, getResponse);
 }
-
-
-opportunities.command =function(message){
-
-}
-
 
 
 module.exports = opportunities
