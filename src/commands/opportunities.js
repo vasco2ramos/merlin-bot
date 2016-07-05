@@ -2,7 +2,6 @@
 
 const prosperworks = require('../helpers/prosperworks');
 
-
 var opportunities = this;
 
 var cmd = [{
@@ -25,10 +24,13 @@ opportunities.cmd = function(cmd, callback){
         prosperworks.openOpportunities(callback);
         return 1;
     } else if (cmd.match(/won$/gi) !== null) {
+        prosperworks.wonOpportunities(callback);
         return 1;
     } else if (cmd.match(/lost$/gi) !== null) {
+        prosperworks.lostOpportunities(callback);
         return 1;
     } else if (cmd.match(/expected$/gi) !== null) {
+        prosperworks.expectedClose(callback);
         return 1;
     }
     else {
