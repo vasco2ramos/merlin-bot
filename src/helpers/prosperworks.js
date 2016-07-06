@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const config = require('../config')
 const request = require('request')
+const moment = require('moment')
 
 const PAGE_SIZE = 50; // Set page size to 50.
 const PIPELINE_ID = 30164; // Pipeline id of negotiating companies
@@ -26,61 +27,51 @@ var options = {
   }
 };
 
-
-
-prosperworks.openOpportunities = function(func){
-
+// Change this later to save opportunities and segment it by name and user
+prosperworks.queryByStatus = function(func, status) {
     // Options Configuration
-    options.form["sort_by"] = "status";
-    options.form["sort_direction"] = "asc";
-    options.form["page_number"] = 1; // Starts at page 1
-
+    options.form["page_number"] = 1; // Since options are global we need to change this everytime
 
     var i = 1, nOpportunities = 0;
 
-    // Can this be made a high level function? Does it improve anything? (maybe)
     function getResponse(error, response, body) {
         if (!error && response.statusCode == 200) {
-            var filtered = _.filter(body,['status','Open']);
-            nOpportunities += filtered.length;
-            /* Since pages are sorted check if number is multiple of page size
-            in order to know if you should get outer pages */
-            if((nOpportunities/i) == PAGE_SIZE){
+            if(body.length > 0){
+                var filtered = filterByStatus(body, status);
+                filtered = filterByCurrentMonth(filtered);
+                nOpportunities += filtered.length;
                 options.form["page_number"] = ++i;
                 request.post(options, getResponse);
             } else {
-                func(nOpportunities);
-            }
-        }
-    }
-
-
-    request.post(options, getResponse);
-}
-
-
-prosperworks.wonOpportunities = function(func){
-
-    // Options Configuration
-    options.form["sort_by"] = "status";
-    options.form["sort_direction"] = "desc";
-    options.form["page_number"] = 1; // Starts at page 1
-
-    var i = 1, nOpportunities = 0;
-    function getResponse(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var filtered = _.filter(body,['status','Won']);
-            nOpportunities += filtered.length;
-            if((nOpportunities/i) == PAGE_SIZE){
-                options.form["page_number"] = ++i;
-                request.post(options, getResponse);
-            } else {
-                func(nOpportunities);
+                console.log("Returning - " + nOpportunities);
+                func(nOpportunities+" opportunities "+status+" this month");
             }
         }
     }
     request.post(options, getResponse);
 }
+
+
+
+
+function filterByStatus(array, status){
+    var filtered = _.filter(array,['status', status]);
+    return filtered;
+}
+
+/* Take into consideration problems caused when the function is executed
+between changing months, not a problem in this case */
+// Keep in mind format is unix timestamp (doesn't work with other timestamps)
+function filterByCurrentMonth(array){
+    var monthBegin = moment().startOf('month'), monthEnd = moment().endOf('month');
+    var filtered =  _.filter(array,
+               function(each){
+                  return moment.unix(each["date_created"])
+                    .isBetween(monthBegin, monthEnd) ;
+               });
+   return filtered;
+}
+
 
 
 module.exports = prosperworks

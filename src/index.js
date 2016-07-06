@@ -39,7 +39,7 @@ controller.hears(['opportunities'], 'direct_message,direct_mention,mention', fun
     const callback = function(response) {
             bot.reply(message, response);
         }
-    bot.reply(message, commands.opportunities.cmd(message.text, callback))
+    commands.opportunities.cmd(message.text, callback)
 });
 
 controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'],

@@ -4,7 +4,8 @@ const prosperworks = require('../helpers/prosperworks');
 
 var opportunities = this;
 
-var cmd = [{
+opportunities.help =
+    [{
         name: "open",
         description: "Returns the number of Open Opportunities"
     },{
@@ -19,23 +20,26 @@ var cmd = [{
     }]
 
 
+/* This can be improved for sure. will try to do it later */
+
 opportunities.cmd = function(cmd, callback){
-    if (cmd.match(/open$/gi) !== null){
-        prosperworks.openOpportunities(callback);
-        return 1;
-    } else if (cmd.match(/won$/gi) !== null) {
-        prosperworks.wonOpportunities(callback);
-        return 1;
-    } else if (cmd.match(/lost$/gi) !== null) {
-        prosperworks.lostOpportunities(callback);
-        return 1;
-    } else if (cmd.match(/expected$/gi) !== null) {
-        prosperworks.expectedClose(callback);
-        return 1;
-    }
-    else {
-        console.log(cmd);
-        return -1;
+    switch(cmd) {
+        case ( (cmd.match(/open$/gi))? cmd : undefined ) :
+            prosperworks.queryByStatus(callback, "Open");
+            break;
+        case ( (cmd.match(/won$/gi))? cmd : undefined ) :
+            prosperworks.queryByStatus(callback, "Won");
+            break;
+        case ( (cmd.match(/lost$/gi))? cmd : undefined ) :
+            prosperworks.queryByStatus(callback, "Lost");
+            break;
+        case ( (cmd.match(/expected$/gi))? cmd : undefined ) :
+            //prosperworks.queryByStatus(callback, "Open");
+            break;
+        default:
+            console.log(cmd);
+            callback("No such command found here")
+            break;
     }
 }
 
