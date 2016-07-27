@@ -7,19 +7,24 @@ module.exports = function opportunities( options ) {
 
   var suffix = ''
 
-  seneca.add('role: opportunities, cmd: open', status)
+  seneca.add('role: opportunities, cmd: open', open)
+  seneca.add('role: opportunities, cmd: won', won)
+  seneca.add('role: opportunities, cmd: lost', lost)
+  seneca.add('role: opportunities, cmd: predicted', predicted)
 
-  seneca.add('role: opportunities, cmd: won', cancel)
-
-  seneca.add('role: opportunities, cmd: lost', cancel)
-
-  seneca.add('role: opportunities, cmd: predicted', cancel)
-
-  function status( args, done ) {
+  function open( args, done ) {
     //done( null, {text:'foo-'+args.text+suffix} )
   }
 
-  function cancel( args, done ) {
+  function won( args, done ) {
+    // Figure this out later
+  }
+
+  function lost( args, done ) {
+    // Figure this out later
+  }
+
+  function predicted( args, done ) {
     // Figure this out later
   }
 

@@ -5,7 +5,7 @@ const config = require('./config')
 var os = require('os');
 
 const commands = require('./commands')
-const seneca = require('seneca')
+
 
 var controller = botkit.slackbot({
     debug: false,
@@ -34,6 +34,9 @@ controller.hears(['opportunities'], 'direct_message,direct_mention,mention', fun
     opportunities(message.text)
 });
 
+controller.hears(['invoices'], 'direct_message,direct_mention,mention', function(bot, message) {
+    invoices(message.text)
+});
 
 
 
