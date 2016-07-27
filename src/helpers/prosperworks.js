@@ -2,6 +2,7 @@ const _ = require('lodash')
 const config = require('../config')
 const request = require('request')
 const moment = require('moment')
+fs = require('fs')
 
 const PAGE_SIZE = 50; // Set page size to 50.
 const PIPELINE_ID = 30164; // Pipeline id of negotiating companies
@@ -52,7 +53,50 @@ prosperworks.queryByStatus = function(func, status) {
 }
 
 
+// Change this later to save opportunities and segment it by name and user
+prosperworks.output = function(func) {
+    // Options Configuration
+    options.form["page_number"] = 1; // Since options are global we need to change this everytime
 
+    var i = 1, nOpportunities = 0;
+
+    var wstream = fs.createWriteStream('myOutput.txt');
+    function getResponse(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            if(body.length > 0){
+                console.log(body)
+                //wstream.write(ConvertToCSV(JSON.stringify(body)));
+                options.form["page_number"] = ++i;
+                request.post(options, getResponse);
+            } else {
+                console.log("done");
+                func("done");
+            }
+        }
+    }
+    request.post(options, getResponse);
+}
+
+
+
+// JSON to CSV Converter
+        function ConvertToCSV(objArray) {
+            var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+            var str = '';
+
+            for (var i = 0; i < array.length; i++) {
+                var line = '';
+                for (var index in array[i]) {
+                    if (line != '') line += ','
+
+                    line += array[i][index];
+                }
+
+                str += line + '\r\n';
+            }
+
+            return str;
+        }
 
 function filterByStatus(array, status){
     var filtered = _.filter(array,['status', status]);

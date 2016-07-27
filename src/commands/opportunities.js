@@ -36,6 +36,9 @@ opportunities.cmd = function(cmd, callback){
         case ( (cmd.match(/expected$/gi))? cmd : undefined ) :
             //prosperworks.queryByStatus(callback, "Open");
             break;
+        case ( (cmd.match(/output$/gi))? cmd : undefined ) :
+                prosperworks.output(callback, "Output");
+            break;
         default:
             console.log(cmd);
             callback("No such command found here")
