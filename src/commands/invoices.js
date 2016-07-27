@@ -1,14 +1,23 @@
 'use strict'
 
 const prosperworks = require('../helpers/prosperworks');
-const seneca = require('seneca')()
 
 
-seneca.add({role: 'invoices', cmd: 'status'}, function (msg, respond) {
-    // Figure this out Later
-})
+module.exports = function invoices( options ) {
+  var seneca = this
 
+  var suffix = ''
 
-seneca.add({role: 'invoices', cmd: 'cancel'}, function (msg, respond) {
-    // Figure this out Later
-})
+  seneca.add('role: invoices, cmd: status', status)
+
+  seneca.add('role: invoices, cmd: cancel', cancel)
+
+  function status( args, done ) {
+    //done( null, {text:'foo-'+args.text+suffix} )
+  }
+
+  function cancel( args, done ) {
+    // Figure this out later
+  }
+
+}
