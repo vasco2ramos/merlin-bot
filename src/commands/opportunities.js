@@ -3,17 +3,15 @@
 const prosperworks = require('../helpers/prosperworks');
 
 module.exports = function opportunities( options ) {
-  var seneca = this
+  var seneca = this;
 
-  var suffix = ''
-
-  seneca.add('role: opportunities, cmd: open', open)
-  seneca.add('role: opportunities, cmd: won', won)
-  seneca.add('role: opportunities, cmd: lost', lost)
-  seneca.add('role: opportunities, cmd: predicted', predicted)
+  seneca.add('role: opportunities, cmd: open', open);
+  seneca.add('role: opportunities, cmd: won', won);
+  seneca.add('role: opportunities, cmd: lost', lost);
+  seneca.add('role: opportunities, cmd: predicted', predicted);
 
   function open( args, done ) {
-    //done( null, {text:'foo-'+args.text+suffix} )
+    done( null, {text:'foo-'+args.text+suffix} )
   }
 
   function won( args, done ) {
