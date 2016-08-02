@@ -10,3 +10,5 @@ fs.readdirSync(__dirname + '/').forEach(function(file) {
     seneca.use('./' + name);
   }
 });
+
+exports.seneca = seneca;

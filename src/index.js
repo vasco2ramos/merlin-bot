@@ -5,7 +5,7 @@ const config = require('./config')
 var os = require('os');
 
 const commands = require('./commands')
-
+const seneca = commands.seneca;
 
 var controller = botkit.slackbot({
     debug: false,
@@ -31,11 +31,11 @@ controller.hears(['help', 'halp'], 'direct_message,direct_mention,mention', func
 });
 
 controller.hears(['opportunities'], 'direct_message,direct_mention,mention', function(bot, message) {
-    opportunities(message.text)
+    seneca.act('role:opportunities'+',cmd:'+message.text.split(' ')[1],printResponse);
 });
 
 controller.hears(['invoices'], 'direct_message,direct_mention,mention', function(bot, message) {
-    invoices(message.text)
+    //invoices(message.text)
 });
 
 
