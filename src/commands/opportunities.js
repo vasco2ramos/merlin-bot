@@ -4,14 +4,13 @@ const prosperworks = require('../helpers/prosperworks');
 const plugin = 'opportunities';
 
 module.exports = function opportunities( options ) {
-    console.log("here");
+
   this.add({role: plugin, cmd: 'open'}, open);
   this.add({role: plugin, cmd: 'won'}, won);
   this.add({role: plugin, cmd: 'lost'}, lost);
   this.add({role: plugin, cmd: 'predicted'}, predicted);
 
   function open( args, done ) {
-      console.log("here");
     done( null, {text:'foo-'} );
   }
 
